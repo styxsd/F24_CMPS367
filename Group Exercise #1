@@ -1,0 +1,114 @@
+// Basic Calculator 
+
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <string>
+#include <cctype>
+
+using namespace std;
+
+// Function to evaluate multiplication and division
+bool evaluateMD(string &expression) {
+	size_t pos = 0;
+	while (pos < expression.size()) {
+    	// Find the position of '*' or '/'
+    	if (expression[pos] == '*' || expression[pos] == '/') {
+        	// Extract the numbers around the operator
+        	double left = stod(expression.substr(0, pos - 1));
+        	double right = stod(expression.substr(pos + 1));
+        	double result;
+
+        	// Perform the operation
+        	if (expression[pos] == '*') {
+            	result = left * right;
+        	} else { // division
+            	if (right == 0) {
+                	cout << "Error: Division by zero!" << endl;
+                	return false;
+            	}
+            	result = left / right;
+        	}
+
+        	// Replace the evaluated part in the expression
+        	expression = to_string(result) + expression.substr(pos + to_string(static_cast<int>(right)).length() + 1);
+        	pos = 0; // Restart the search from the beginning
+    	} else {
+        	pos++;
+    	}
+	}
+	return true;
+}
+
+// Function to evaluate addition and subtraction
+bool evaluateAS(string &expression) {
+	size_t pos = 0;
+	while (pos < expression.size()) {
+    	// Find the position of '+' or '-'
+    	if (expression[pos] == '+' || expression[pos] == '-') {
+        	// Extract the numbers around the operator
+        	double left = stod(expression.substr(0, pos - 1));
+        	double right = stod(expression.substr(pos + 1));
+        	double result;
+
+        	// Perform the operation
+        	if (expression[pos] == '+') {
+            	result = left + right;
+        	} else { // subtraction
+            	result = left - right;
+        	}
+
+        	// Replace the evaluated part in the expression
+        	expression = to_string(result) + expression.substr(pos + to_string(static_cast<int>(right)).length() + 1);
+        	pos = 0; // Restart the search from the beginning
+    	} else {
+        	pos++;
+    	}
+	}
+	return true;
+}
+
+// Function to check for valid characters in the expression
+bool isValidExpression(const string &expression) {
+	for (char ch : expression) {
+    	if (!isdigit(ch) && ch != ' ' && ch != '+' && ch != '-' && ch != '*' && ch != '/') {
+        	return false;
+    	}
+	}
+	return true;
+}
+
+int main() {
+	string problem;
+	char retry;
+
+	do {
+    	cout << "Enter a problem to solve: ";
+    	getline(cin, problem);
+
+    	// Check for valid characters
+    	if (!isValidExpression(problem)) {
+        	cout << "Error: Invalid expression! Please use only numbers and the operators +, -, *, /." << endl;
+        	continue;
+    	}
+
+    	// Evaluate multiplication and division first
+    	if (!evaluateMD(problem)) continue;
+
+    	// Evaluate addition and subtraction next
+    	if (!evaluateAS(problem)) continue;
+
+    	// Display the result
+    	cout << "Result: " << problem << endl;
+
+    	cout << "Do you want to try again (Y/N)? ";
+    	cin >> retry;
+    	cin.ignore(); // Clear the newline character from the input buffer
+	} while (toupper(retry) == 'Y');
+
+	cout << "Goodbye" << endl;
+	return 0;
+}
+
+
+
