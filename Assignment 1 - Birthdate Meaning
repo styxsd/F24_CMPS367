@@ -1,0 +1,97 @@
+//Assignment 1 - Part 2
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Function to return the meaning of the month
+string getMonthMeaning(int month) {
+	switch (month) {
+    	case 1: return "Janus";
+    	case 2: return "Hope";
+    	case 3: return "Creative Expression";
+    	case 4: return "Stability";
+    	case 5: return "Freedom";
+    	case 6: return "Harmony";
+    	case 7: return "Spiritual";
+    	case 8: return "Power";
+    	case 9: return "Completion";
+    	case 10: return "Initiation";
+    	case 11: return "Visionary";
+    	case 12: return "Generosity";
+    	default: return "Invalid month";
+	}
+}
+
+// Function to return the meaning of the day (numerology interpretation)
+string getDayMeaning(int day) {
+	if (day == 1) return "Self-Started";
+	else if (day == 2) return "Cooperative";
+	else if (day == 3) return "Expressive";
+	else if (day == 4) return "Organized";
+	else if (day == 5) return "Adventurous";
+	else if (day == 6) return "Loyal";
+	else if (day == 7) return "Intellectual";
+	else if (day == 8) return "Ambitious";
+	else if (day == 9) return "Humanitarian";
+	else return "Unique";
+}
+
+// Function to return the meaning of the year
+string getYearMeaning(int year) {
+	if (year == 2000) return "Millennial";
+	else if (year >= 1990 && year < 2000) return "Generation Y";
+	else if (year >= 1980 && year < 1990) return "Generation X";
+	else if (year >= 1970 && year < 1980) return "Baby Boomer";
+	else if (year >= 1960 && year < 1970) return "Silent Generation";
+	else return "Pre-Silent Generation";
+}
+
+int main() {
+	string tryAgain = "Y";  // Variable to control the loop
+	while (tryAgain == "Y" || tryAgain == "y") {
+    	int month, day, year;
+   	 
+    	// Get user input
+    	cout << "Welcome to Birthday Date Meaning Generator!" << endl;
+   	 
+    	// Get month, day, and year from the user
+    	cout << "Please enter the month of your birthday (1-12): ";
+    	cin >> month;
+   	 
+    	cout << "Please enter the day of your birthday (1-31): ";
+    	cin >> day;
+   	 
+    	cout << "Please enter the year of your birthday (2000-2023): ";
+    	cin >> year;
+   	 
+    	// Get the meaning of the month
+    	string monthMeaning = getMonthMeaning(month);
+   	 
+    	// Get the meaning of the day
+    	string dayMeaning = getDayMeaning(day);
+   	 
+    	// Get the meaning of the year
+    	string yearMeaning = getYearMeaning(year);
+   	 
+    	// Output the results
+    	cout << "The month of " << (month == 1 ? "January" : month == 2 ? "February" : month == 3 ? "March" :
+                              	month == 4 ? "April" : month == 5 ? "May" : month == 6 ? "June" :
+                              	month == 7 ? "July" : month == 8 ? "August" : month == 9 ? "September" :
+                              	month == 10 ? "October" : month == 11 ? "November" : "December")
+         	<< " means " << monthMeaning << "." << endl;
+   	 
+    	cout << "The " << day << " of the month means " << dayMeaning << "." << endl;
+    	cout << "The year " << year << " means that you are " << yearMeaning << "." << endl;
+   	 
+    	// Ask the user if they want to try again
+    	cout << "Would you like to try another one? (Y/N): ";
+    	cin >> tryAgain;
+   	 
+    	// Clear the newline character left in the buffer by cin
+    	cin.ignore();
+	}
+    
+	// Thank the user for playing
+	cout << "Thanks for playing!" << endl;
+	return 0;
+}
