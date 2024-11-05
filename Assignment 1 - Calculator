@@ -1,0 +1,129 @@
+//Assignment 1 - Part 5
+#include <iostream>
+#include <cmath>       // For mathematical functions
+#include <string>
+#include <limits>      // For numeric_limits
+#include <sstream>     // For string stream
+#include <regex>       // For regular expressions
+
+using namespace std;
+
+// Function Declarations for different operations
+double add(double a, double b) {
+    return a + b;
+}
+
+double subtract(double a, double b) {
+    return a - b;
+}
+
+double multiply(double a, double b) {
+    return a * b;
+}
+
+double divide(double a, double b) {
+    if (b == 0) {
+        cout << "Error! Division by zero." << endl;
+        return numeric_limits<double>::infinity();  // Return infinity if division by zero
+    }
+    return a / b;
+}
+
+double modulus(int a, int b) {
+    return a % b;
+}
+
+double exponent(double base, double exp) {
+    return pow(base, exp);
+}
+
+double sinFunc(double angle) {
+    return sin(angle);
+}
+
+double cosFunc(double angle) {
+    return cos(angle);
+}
+
+double tanFunc(double angle) {
+    return tan(angle);
+}
+
+double sqrtFunc(double a) {
+    return sqrt(a);
+}
+
+// Function to process and extract operands from input
+double processOperand(const string& operand) {
+    stringstream ss(operand);
+    double result;
+    ss >> result;  // Convert string to double
+    return result;
+}
+
+// Function to handle simple arithmetic operations (+, -, *, /)
+double handleBasicOperation(const string& input) {
+    double num1, num2;
+    char op;
+    stringstream ss(input);
+
+    ss >> num1 >> op >> num2;
+
+    switch(op) {
+        case '+': return add(num1, num2);
+        case '-': return subtract(num1, num2);
+        case '*': return multiply(num1, num2);
+        case '/': return divide(num1, num2);
+        default: return 0;
+    }
+}
+
+// Function to handle functions like sin, cos, sqrt, etc.
+double handleFunction(const string& input) {
+    regex pattern("^([a-zA-Z]+)\\(([-+]?[0-9]*\\.?[0-9]+)\\)$");  // Match functions like sin(30)
+    smatch matches;
+
+    if (regex_search(input, matches, pattern)) {
+        string func = matches[1];     // Function name (sin, cos, etc.)
+        double operand = stod(matches[2]); // Operand
+
+        if (func == "sin") return sinFunc(operand);
+        else if (func == "cos") return cosFunc(operand);
+        else if (func == "tan") return tanFunc(operand);
+        else if (func == "sqrt") return sqrtFunc(operand);
+        else {
+            cout << "Unsupported function: " << func << endl;
+            return 0;
+        }
+    }
+    return 0;  // If no match, return 0
+}
+
+int main() {
+    string input;
+    string response;
+    
+    do {
+        cout << "Enter a problem (example: 5 + 3 or sqrt(25)): ";
+        cin >> ws;  // Clear leading whitespace
+        getline(cin, input);  // Read the full input as a string
+
+        if (input.find("(") != string::npos) {
+            // Handle function calls like sin(30), cos(45), etc.
+            cout << "Result: " << handleFunction(input) << endl;
+        }
+        else {
+            // Handle basic arithmetic operations
+            cout << "Result: " << handleBasicOperation(input) << endl;
+        }
+
+        // Ask if the user wants to solve another problem
+        cout << "Do you want to solve another problem (yes/no)? ";
+        cin >> response;
+
+    } while (response == "yes" || response == "y");
+
+    cout << "Thank you for using the Math Calculator!" << endl;
+
+    return 0;
+}
