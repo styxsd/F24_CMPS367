@@ -1,0 +1,75 @@
+// Assignment 2 
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+// Define a struct to group user data
+struct UserInfo {
+	string name;
+	string gender;
+	int age;
+	int heightFeet;
+	int heightInches;
+	int weight;
+	double bmi;
+	string bmiCategory;
+};
+
+int main() {
+	// Declare an object of the UserInfo struct
+	UserInfo user;
+
+	// Ask for user inputs
+	cout << "Please enter your name: ";
+	getline(cin, user.name);
+
+	cout << "Please enter your age: ";
+	cin >> user.age;
+
+	cout << "Please enter your Gender (male/female): ";
+	cin >> user.gender;
+
+	cout << "Please enter your height in feet: ";
+	cin >> user.heightFeet;
+
+	cout << "Please enter your height in inches: ";
+	cin >> user.heightInches;
+
+	cout << "Please enter your weight in pounds: ";
+	cin >> user.weight;
+
+	// Convert height to inches
+	int totalInches = (user.heightFeet * 12) + user.heightInches;
+
+	// Calculate BMI
+	user.bmi = (703.0 * user.weight) / (totalInches * totalInches);
+
+	// Determine BMI category
+	if (user.bmi < 18.5) {
+    	user.bmiCategory = "Underweight";
+	} else if (user.bmi >= 18.5 && user.bmi < 24.9) {
+    	user.bmiCategory = "Normal weight";
+	} else if (user.bmi >= 25 && user.bmi < 29.9) {
+    	user.bmiCategory = "Overweight";
+	} else {
+    	user.bmiCategory = "Obesity";
+	}
+
+	// Output the result
+	cout << "\nHi " << user.name << "," << endl;
+	cout << "You are a " << user.gender << ". You are " << user.age << " years old." << endl;
+	cout << "You are currently " << user.heightFeet << "'" << user.heightInches << "\" and you currently weigh "
+     	<< user.weight << " pounds." << endl;
+	cout << fixed << setprecision(2);  // Set decimal precision for BMI
+	cout << "Your BMI is " << user.bmi << ", which is " << user.bmiCategory << "." << endl;
+
+	// Thank the user for using the BMI Calculator
+	cout << "Thank you for using the BMI Calculator!" << endl;
+
+	return 0;
+}
+
+
+
+
